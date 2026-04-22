@@ -9,10 +9,13 @@ import {
   LayoutDashboard,
   LogOut,
   Menu,
+  Moon,
+  Sun,
   User,
   X,
 } from "lucide-react"
 import { useState } from "react"
+import { useTheme } from "next-themes"
 import { useLanguage } from "@/contexts/language-context"
 import { useUser } from "@/contexts/user-context"
 import { LanguageSelector } from "@/components/language-selector"
@@ -32,6 +35,7 @@ export function Navbar() {
   const { t } = useLanguage()
   const { user, logout } = useUser()
   const pathname = usePathname()
+  const { theme, setTheme } = useTheme()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const navLinks = user
@@ -67,16 +71,16 @@ export function Navbar() {
   const allLinks = [...navLinks, ...adminLinks]
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 animate-fade-in-down">
       <div className="container flex h-16 items-center justify-between px-4">
         <Link
           href="/"
           className="flex items-center gap-2 transition-transform duration-300 hover:scale-105"
         >
-          <div className="relative flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
+          <div className="relative flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-accent animate-glow">
             <span className="text-lg font-bold text-primary-foreground">SG</span>
           </div>
-          <span className="hidden font-semibold sm:inline-block">
+          <span className="hidden font-semibold sm:inline-block text-gradient-animate">
             SmartGov Queue
           </span>
         </Link>
@@ -88,7 +92,7 @@ export function Navbar() {
               <Button
                 variant={pathname === link.href ? "secondary" : "ghost"}
                 size="sm"
-                className="gap-2 transition-all duration-300 hover:scale-105"
+                className="gap-2 transition-all duration-300 hover:scale-105 hover-lift"
               >
                 <link.icon className="h-4 w-4" />
                 {link.label}
@@ -98,6 +102,21 @@ export function Navbar() {
         </nav>
 
         <div className="flex items-center gap-2">
+          {/* Theme Toggle */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="transition-all duration-300 hover:scale-110"
+          >
+            {theme === "dark" ? (
+              <Sun className="h-4 w-4 transition-transform duration-300 rotate-0" />
+            ) : (
+              <Moon className="h-4 w-4 transition-transform duration-300 rotate-180" />
+            )}
+            <span className="sr-only">Toggle theme</span>
+          </Button>
+
           <LanguageSelector />
 
           {user ? (

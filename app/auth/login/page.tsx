@@ -4,6 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Eye, EyeOff, Loader2, LogIn } from "lucide-react"
+import { useTheme } from "next-themes"
 import { useLanguage } from "@/contexts/language-context"
 import { useUser } from "@/contexts/user-context"
 import { Navbar } from "@/components/navbar"
@@ -13,10 +14,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { FieldGroup, Field, FieldLabel } from "@/components/ui/field"
+import { GradientBackground } from "@/components/gradient-background"
 
 export default function LoginPage() {
   const { t } = useLanguage()
   const { login } = useUser()
+  const { theme } = useTheme()
   const router = useRouter()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -44,115 +47,111 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-      <div className="container flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-12">
-        <Card className="w-full max-w-md border-border/50 shadow-xl">
-          <CardHeader className="space-y-1 text-center">
-            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary">
-              <LogIn className="h-6 w-6 text-primary-foreground" />
-            </div>
-            <CardTitle className="text-2xl">{t("welcomeBack")}</CardTitle>
-            <CardDescription>
-              Enter your credentials to access your account
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <FieldGroup>
-                <Field>
-                  <FieldLabel htmlFor="email">{t("email")}</FieldLabel>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="name@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    className="transition-all duration-300 focus:ring-2 focus:ring-primary/20"
-                  />
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor="password">{t("password")}</FieldLabel>
-                  <div className="relative">
+    <div className={`min-h-screen ${theme === "dark" ? "dark" : ""}`}>
+      <GradientBackground isDark={theme === "dark"} className="min-h-screen">
+        <Navbar />
+        <div className="container flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-12">
+          <Card className="w-full max-w-md border-border/50 shadow-xl bg-card/50 dark:bg-card/30 glow-card animate-zoom-in">
+            <CardHeader className="space-y-1 text-center animate-fade-in-down">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-accent animate-glow">
+                <LogIn className="h-6 w-6 text-primary-foreground" />
+              </div>
+              <CardTitle className="text-2xl text-gradient-animate">{t("welcomeBack")}</CardTitle>
+              <CardDescription>
+                Enter your credentials to access your account
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <FieldGroup>
+                  <Field>
+                    <FieldLabel htmlFor="email">{t("email")}</FieldLabel>
                     <Input
-                      id="password"
-                      type={showPassword ? "text" : "password"}
-                      placeholder="Enter your password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      id="email"
+                      type="email"
+                      placeholder="name@example.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       required
-                      className="pr-10 transition-all duration-300 focus:ring-2 focus:ring-primary/20"
+                      className="transition-all duration-300 focus:ring-2 focus:ring-primary/20 hover-lift"
                     />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? (
-                        <EyeOff className="h-4 w-4 text-muted-foreground" />
-                      ) : (
-                        <Eye className="h-4 w-4 text-muted-foreground" />
-                      )}
-                    </Button>
-                  </div>
-                </Field>
-              </FieldGroup>
+                  </Field>
+                  <Field>
+                    <FieldLabel htmlFor="password">{t("password")}</FieldLabel>
+                    <div className="relative">
+                      <Input
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Enter your password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                        className="pr-10 transition-all duration-300 focus:ring-2 focus:ring-primary/20 hover-lift"
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-4 w-4 text-muted-foreground" />
+                        ) : (
+                          <Eye className="h-4 w-4 text-muted-foreground" />
+                        )}
+                      </Button>
+                    </div>
+                  </Field>
+                </FieldGroup>
 
-              {error && (
-                <p className="text-sm text-destructive">{error}</p>
-              )}
-
-              <AnimatedButton
-                type="submit"
-                className="w-full"
-                disabled={loading}
-              >
-                {loading ? (
-                  <>
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    {t("loading")}
-                  </>
-                ) : (
-                  t("login")
+                {error && (
+                  <p className="text-sm text-destructive animate-fade-in-up">{error}</p>
                 )}
-              </AnimatedButton>
 
-              <div className="text-center text-sm">
-                <span className="text-muted-foreground">{t("dontHaveAccount")} </span>
-                <Link
-                  href="/auth/register"
-                  className="font-medium text-primary transition-colors hover:text-primary/80"
+                <AnimatedButton
+                  type="submit"
+                  className="w-full"
+                  disabled={loading}
+                  isPending={loading}
                 >
-                  {t("register")}
-                </Link>
-              </div>
+                  {t("login")}
+                </AnimatedButton>
 
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-border" />
+                <div className="text-center text-sm">
+                  <span className="text-muted-foreground">{t("dontHaveAccount")} </span>
+                  <Link
+                    href="/auth/register"
+                    className="font-medium text-primary transition-colors hover:text-primary/80 underline-animated"
+                  >
+                    {t("register")}
+                  </Link>
                 </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-card px-2 text-muted-foreground">Demo Credentials</span>
-                </div>
-              </div>
 
-              <div className="rounded-lg bg-muted/50 p-3 text-sm">
-                <p className="mb-1">
-                  <span className="text-muted-foreground">Admin:</span>{" "}
-                  admin@smartgov.in / admin123
-                </p>
-                <p>
-                  <span className="text-muted-foreground">Citizen:</span>{" "}
-                  Any email / any password
-                </p>
-              </div>
-            </form>
-          </CardContent>
-        </Card>
-      </div>
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-border" />
+                  </div>
+                  <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-card px-2 text-muted-foreground">Demo Credentials</span>
+                  </div>
+                </div>
+
+                <div className="rounded-lg bg-muted/50 dark:bg-muted/30 p-3 text-sm glass-effect">
+                  <p className="mb-1">
+                    <span className="text-muted-foreground">Admin:</span>{" "}
+                    admin@smartgov.in / admin123
+                  </p>
+                  <p>
+                    <span className="text-muted-foreground">Citizen:</span>{" "}
+                    Any email / any password
+                  </p>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
+        </div>
+      </GradientBackground>
     </div>
   )
 }

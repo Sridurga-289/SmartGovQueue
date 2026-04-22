@@ -21,13 +21,13 @@ export function LanguageSelector({ className }: { className?: string }) {
           variant="ghost"
           size="sm"
           className={cn(
-            "gap-2 transition-all duration-300 hover:scale-105",
+            "gap-2 transition-all duration-300 hover:scale-105 hover-lift",
             className
           )}
         >
           <Globe className="h-4 w-4" />
           <span className="hidden sm:inline">
-            {language === "en" ? "EN" : "हिं"}
+            {language === "en" ? "EN" : language === "hi" ? "हिं" : "తె"}
           </span>
         </Button>
       </DropdownMenuTrigger>
@@ -51,6 +51,16 @@ export function LanguageSelector({ className }: { className?: string }) {
         >
           <span className="mr-2">🇮🇳</span>
           हिंदी
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => setLanguage("te")}
+          className={cn(
+            "cursor-pointer transition-colors",
+            language === "te" && "bg-primary/10 text-primary"
+          )}
+        >
+          <span className="mr-2">🇮🇳</span>
+          తెలుగు
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
