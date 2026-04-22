@@ -8,7 +8,7 @@ import { useTheme } from "next-themes"
 import { useLanguage } from "@/contexts/language-context"
 import { useUser } from "@/contexts/user-context"
 import { Navbar } from "@/components/navbar"
-import { AnimatedButton } from "@/components/animated-button"
+import { PrimaryButton } from "@/components/primary-button"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -109,14 +109,14 @@ export default function LoginPage() {
                   <p className="text-sm text-destructive animate-fade-in-up">{error}</p>
                 )}
 
-                <AnimatedButton
+                <PrimaryButton
                   type="submit"
                   className="w-full"
                   disabled={loading}
-                  isPending={loading}
+                  isLoading={loading}
                 >
                   {t("login")}
-                </AnimatedButton>
+                </PrimaryButton>
 
                 <div className="text-center text-sm">
                   <span className="text-muted-foreground">{t("dontHaveAccount")} </span>

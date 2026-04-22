@@ -19,6 +19,8 @@ import { useUser } from "@/contexts/user-context"
 import { useTheme } from "next-themes"
 import { Navbar } from "@/components/navbar"
 import { AnimatedButton } from "@/components/animated-button"
+import { PrimaryButton } from "@/components/primary-button"
+import { SecondaryButton } from "@/components/secondary-button"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { GradientBackground } from "@/components/gradient-background"
@@ -126,19 +128,14 @@ export default function LandingPage() {
               </p>
               <div className="flex flex-col items-center justify-center gap-4 sm:flex-row animate-fade-in-up stagger-3">
                 <Link href={user ? "/citizen/book" : "/auth/register"}>
-                  <AnimatedButton size="lg" className="gap-2 px-8">
+                  <PrimaryButton className="gap-2 px-8" size="lg" icon={<ArrowRight className="h-5 w-5" />}>
                     {t("getStarted")}
-                    <ArrowRight className="h-4 w-4" />
-                  </AnimatedButton>
+                  </PrimaryButton>
                 </Link>
                 <Link href="#features">
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="gap-2 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] hover-lift"
-                  >
+                  <SecondaryButton size="lg" className="gap-2">
                     {t("learnMore")}
-                  </Button>
+                  </SecondaryButton>
                 </Link>
               </div>
             </div>
@@ -234,14 +231,13 @@ export default function LandingPage() {
                 {language === "hi" ? "SmartGov Queue के साथ समय बचाने वाली लाखों उपयोगकर्ताओं के साथ जुड़ें। आज ही अपनी पहली अपॉइंटमेंट बुक करें।" : language === "te" ? "SmartGov Queue తో సమయం ఆదా చేసే లక్షల మంది వినియోగదారుల చేరండి. ఈ రోజు మీ మొదటి నియామకాన్ని బుక్ చేయండి." : "Join millions of users who save time with SmartGov Queue. Book your first appointment today."}
               </p>
               <Link href={user ? "/citizen/book" : "/auth/register"}>
-                <AnimatedButton
+                <PrimaryButton
                   size="lg"
-                  variant="secondary"
-                  className="gap-2 bg-background text-foreground hover:bg-background/90"
+                  className="gap-2 bg-white text-primary hover:bg-gray-100"
+                  icon={<ArrowRight className="h-5 w-5" />}
                 >
                   {t("getStarted")}
-                  <ArrowRight className="h-4 w-4" />
-                </AnimatedButton>
+                </PrimaryButton>
               </Link>
             </div>
           </div>
